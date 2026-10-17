@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWE® - Street Wear Eazy | Official Store</title>
+  <!-- Tích hợp Google Fonts Inter & Tailwind CSS hỗ trợ tiện ích UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* [ĐÃ SỬA QA]: Loại bỏ toàn bộ ký tự U+00A0 gây lỗi CSS Parser */
+    :root {
+      --swe-black: #111111;
+      --swe-red: #d91c1c;
+      --swe-gray-light: #f6f6f6;
+      --swe-gray-text: #666666;
+      --swe-border: #e5e5e5;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      color: var(--swe-black);
+      background-color: #ffffff;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+    }
+
+    /* 1. TOP BAR: Đồng bộ chính sách Freeship 500.000₫ */
+    .top-bar {
+      background-color: var(--swe-black);
+      color: #ffffff;
+      text-align: center;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+    .top-bar span.highlight {
+      color: #ff4d4d;
+      font-weight: 700;
+    }
+
+    /* 2. STICKY HEADER: Khắc phục triệt để lỗi rớt 2 dòng khi cuộn & tràn màn hình mobile */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--swe-border);
+    }
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand-logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: lowercase;
+      border: 2px solid var(--swe-black);
+      padding: 2px 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .brand-logo:hover {
+      background: var(--swe-black);
+      color: #ffffff;
+    }
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 4px 0;
+    }
+    .main-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .main-nav a {
+      font-size: 13.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--swe-black);
+      position: relative;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+    .main-nav a.sale-item {
+      color: var(--swe-red);
+      font-weight: 700;
+    }
+    .main-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--swe-black);
+      transition: width 0.25s ease;
+    }
+    .main-nav a:hover::after,
+    .main-nav a.active-nav::after {
+      width: 100%;
+    }
+    .main-nav a.sale-item::after {
+      background-color: var(--swe-red);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--swe-border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      background: var(--swe-gray-light);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .search-box:focus-within {
+      border-color: var(--swe-black);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(17,17,17,0.08);
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 13px;
+      width: 160px;
+      color: var(--swe-black);
+    }
+    .action-link {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+    }
+    .action-link:hover {
+      background: var(--swe-gray-light);
+    }
+    .cart-badge {
+      background: var(--swe-black);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .cart-badge.bump {
+      transform: scale(1.25);
+      background: var(--swe-red);
+    }
+
+    /* 3. HERO BANNER: Không bị cắt chữ 499K, tích hợp nút bấm lọc giá trực tiếp */
+    .hero-banner {
+      max-width: 1400px;
+      margin: 24px auto;
+      padding: 0 24px;
+    }
+    .hero-inner {
+      background: linear-gradient(135deg, #111111 0%, #2b2b2b 100%);
+      border-radius: 16px;
+      padding: 48px 32px;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    }
+    .hero-inner::before {
+      content: 'SWE®';
+      position: absolute;
+      right: -20px;
+      bottom: -45px;
+      font-size: 180px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--swe-red);
+      color: #fff;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 20px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .hero-title {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: #cccccc;
+      margin-bottom: 32px;
+    }
+    .price-tier-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .price-btn {
+      background: #ffffff;
+      color: var(--swe-black);
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 22px;
+      font-weight: 800;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .price-btn:hover,
+    .price-btn.active-tier {
+      background: var(--swe-red);
+      color: #ffffff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(217, 28, 28, 0.35);
+    }
+    .cta-primary {
+      display: inline-block;
+      background: var(--swe-red);
+      color: #ffffff;
+      padding: 16px 40px;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-radius: 30px;
+      letter-spacing: 0.8px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+    .cta-primary:hover {
+      background: #b51414;
+      transform: translateY(-2px);
+    }
+
+    /* 4. CATEGORY GRID: Đồng bộ TOPS, BOTTOMS, OUTERWEAR, ACCESSORIES */
+    .section-container {
+      max-width: 1400px;
+      margin: 56px auto;
+      padding: 0 24px;
+    }
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .category-card {
+      position: relative;
+      height: 400px;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: #222222;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 28px 20px;
+      cursor: pointer;
+    }
+    .category-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .category-card:hover img {
+      transform: scale(1.07);
+    }
+    .category-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.1) 100%);
+      z-index: 1;
+    }
+    .category-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #ffffff;
+    }
+    .category-content h3 {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .category-content span {
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: underline;
+      opacity: 0.92;
+    }
+
+    /* 4.5. PRODUCT CATALOG: Bổ sung danh sách sản phẩm lọc trực tiếp không bị lỗi 404 */
+    .catalog-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--swe-border);
+    }
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-pill {
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid var(--swe-border);
+      background: #ffffff;
+      color: var(--swe-black);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .filter-pill:hover {
+      border-color: var(--swe-black);
+    }
+    .filter-pill.active {
+      background: var(--swe-black);
+      color: #ffffff;
+      border-color: var(--swe-black);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .product-card {
+      border: 1px solid var(--swe-border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+    }
+    .product-img-wrap {
+      position: relative;
+      aspect-ratio: 1 / 1.1;
+      background: var(--swe-gray-light);
+      overflow: hidden;
+    }
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-img-wrap img {
+      transform: scale(1.05);
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--swe-red);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .product-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-cat {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--swe-gray-text);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .product-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--swe-black);
+      margin-bottom: 8px;
+      line-height: 1.35;
+      min-height: 40px;
+    }
+    .product-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .product-price {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--swe-red);
+    }
+    .product-old-price {
+      font-size: 13px;
+      color: #999999;
+      text-decoration: line-through;
+    }
+    .size-selector {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .size-btn {
+      flex: 1;
+      padding: 5px 0;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid var(--swe-border);
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .size-btn.selected {
+      background: var(--swe-black);
+      color: #ffffff;
+      border-color: var(--swe-black);
+    }
+    .add-cart-btn {
+      margin-top: auto;
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 8px;
+      background: var(--swe-black);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .add-cart-btn:hover {
+      background: var(--swe-red);
+    }
+    .add-cart-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    /* 5. TRUST BADGES: Đồng bộ chính sách & sửa lỗi "Đặt hàng trực tuyến" */
+    .trust-badges {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--swe-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 56px 0;
+      background: #ffffff;
+    }
+    .badge-item {
+      padding: 28px 20px;
+      text-align: center;
+      border-right: 1px solid var(--swe-border);
+    }
+    .badge-item:last-child {
+      border-right: none;
+    }
+    .badge-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .badge-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--swe-black);
+    }
+    .badge-desc {
+      font-size: 13px;
+      color: var(--swe-gray-text);
+    }
+
+    /* 6. SWE FEEDBACK / SHOP THE LOOK: Đồng bộ kích thước khung hình & gắn nút mua */
+    .section-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .section-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .section-header p {
+      font-size: 14px;
+      color: var(--swe-gray-text);
+      margin-top: 6px;
+    }
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feedback-card {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: #222222;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+    .feedback-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .feedback-card:hover img {
+      transform: scale(1.05);
+    }
+    .feedback-tag {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 2;
+      background: rgba(17, 17, 17, 0.78);
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      backdrop-filter: blur(4px);
+    }
+    .shop-look-btn {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--swe-black);
+      padding: 13px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+    .shop-look-btn:hover {
+      background: var(--swe-black);
+      color: #ffffff;
+    }
+
+    /* 7. FOOTER: Xóa tiêu đề thừa, cập nhật mốc 10 năm, sửa lỗi cắt khung Fanpage */
+    .site-footer {
+      background-color: var(--swe-gray-light);
+      border-top: 1px solid var(--swe-border);
+      padding: 64px 24px 32px;
+      margin-top: 80px;
+    }
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1.3fr 1.2fr;
+      gap: 40px;
+    }
+    .footer-col h4 {
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .footer-col p, .footer-col li {
+      font-size: 14px;
+      color: var(--swe-gray-text);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li a {
+      cursor: pointer;
+    }
+    .footer-col ul li a:hover {
+      color: var(--swe-black);
+      text-decoration: underline;
+    }
+    .social-card {
+      background: #ffffff;
+      border: 1px solid var(--swe-border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .social-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .social-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--swe-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .social-info h5 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+    .social-info span {
+      font-size: 13px;
+      color: var(--swe-gray-text);
+      display: block;
+    }
+    .social-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .social-btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      background: var(--swe-black);
+      color: #ffffff;
+    }
+    .social-btn:hover {
+      background: var(--swe-red);
+    }
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 48px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--swe-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--swe-gray-text);
+    }
+
+    /* [ĐÃ BỔ SUNG QA]: Responsive đầy đủ cho Tablet & Điện thoại */
+    @media (max-width: 1024px) {
+      .category-grid, .trust-badges, .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .feedback-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .badge-item:nth-child(2) {
+        border-right: none;
+      }
+      .badge-item:nth-child(1),
+      .badge-item:nth-child(2) {
+        border-bottom: 1px solid var(--swe-border);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        gap: 12px;
+      }
+      .brand-logo {
+        order: 1;
+      }
+      .header-actions {
+        order: 2;
+        margin-left: auto;
+        gap: 8px;
+      }
+      .search-box input {
+        width: 115px;
+      }
+      .main-nav {
+        order: 3;
+        width: 100%;
+        border-top: 1px solid var(--swe-border);
+        padding-top: 8px;
+        gap: 16px;
+      }
+      .hero-inner {
+        padding: 32px 18px;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .price-btn {
+        font-size: 18px;
+        padding: 12px 20px;
+      }
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .category-card {
+        height: 280px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-grid,
+      .trust-badges,
+      .feedback-grid,
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+      .badge-item {
+        border-right: none !important;
+        border-bottom: 1px solid var(--swe-border);
+      }
+      .badge-item:last-child {
+        border-bottom: none;
+      }
+      .action-link span.hide-mobile {
+        display: none;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. TOP BAR ĐỒNG BỘ CHÍNH SÁCH -->
+  <div class="top-bar">
+    🚚 Miễn phí vận chuyển với đơn hàng từ <span class="highlight">500.000₫</span> — Đổi trả linh hoạt trong 5 ngày
+  </div>
+
+  <!-- 2. STICKY HEADER KHÔNG RỚT DÒNG & HỖ TRỢ MOBILE -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="#top" onclick="resetAllFilters(event)" class="brand-logo" title="Về trang chủ SWE®">swe</a>
+
+      <nav class="main-nav" id="mainNav">
+        <a data-nav="SALE" class="sale-item active-nav" onclick="handleNavFilter(event, 'SALE')">SALE 🔥</a>
+        <a data-nav="SUMMER" onclick="handleNavFilter(event, 'SUMMER')">SUMMER COLLECTION</a>
+        <a data-nav="NEW" onclick="handleNavFilter(event, 'NEW')">NEW ARRIVALS</a>
+        <a data-nav="BEST" onclick="handleNavFilter(event, 'BEST')">BEST SELLERS</a>
+        <a data-nav="TOPS" onclick="handleNavFilter(event, 'TOPS')">TOPS</a>
+        <a data-nav="BOTTOMS" onclick="handleNavFilter(event, 'BOTTOMS')">BOTTOMS</a>
+        <a data-nav="OUTERWEAR" onclick="handleNavFilter(event, 'OUTERWEAR')">OUTERWEAR</a>
+        <a data-nav="ACCESSORIES" onclick="handleNavFilter(event, 'ACCESSORIES')">ACCESSORIES</a>
+        <a data-nav="WOMENS" onclick="handleNavFilter(event, 'WOMENS')">WOMENS</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Tìm áo, quần, balo..." aria-label="Tìm kiếm sản phẩm">
+          <button type="button" id="clearSearchBtn" onclick="clearSearch()" class="hidden text-xs text-gray-400 hover:text-black mr-1" title="Xóa tìm kiếm">✕</button>
+          <span>🔍</span>
+        </div>
+        <button type="button" onclick="openInfoModal('account')" class="action-link">
+          <span>👤</span> <span class="hide-mobile">Tài khoản</span>
+        </button>
+        <button type="button" onclick="toggleCartDrawer(true)" class="action-link" id="cartTriggerBtn">
+          <span>🛍️</span> <span class="hide-mobile">Giỏ hàng</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3. HERO BANNER CÓ NÚT CHỌN MỨC GIÁ TRỰC TIẾP & KHÔNG BỊ CẮT CHỮ -->
+  <section class="hero-banner" id="top">
+    <div class="hero-inner">
+      <span class="hero-tag">Special Campaign</span>
+      <h1 class="hero-title">SAME PRICE DEAL</h1>
+      <p class="hero-subtitle">Chọn mức giá để xem ngay các thiết kế Streetwear ưu đãi giới hạn</p>
+      <div class="price-tier-buttons" id="heroPriceButtons">
+        <button type="button" data-price="199000" onclick="handlePriceFilter(199000)" class="price-btn">199.000₫</button>
+        <button type="button" data-price="299000" onclick="handlePriceFilter(299000)" class="price-btn">299.000₫</button>
+        <button type="button" data-price="399000" onclick="handlePriceFilter(399000)" class="price-btn">399.000₫</button>
+        <button type="button" data-price="499000" onclick="handlePriceFilter(499000)" class="price-btn">499.000₫</button>
+      </div>
+      <button type="button" onclick="handlePriceFilter('ALL', true)" class="cta-primary">Xem toàn bộ sản phẩm ưu đãi →</button>
+    </div>
+  </section>
+
+  <!-- 4. DANH MỤC SẢN PHẨM ĐỒNG BỘ NGỮ PHÁP & ĐÚNG HÌNH ẢNH CÓ FALLBACK -->
+  <section class="section-container">
+    <div class="category-grid">
+      <div onclick="handleNavFilter(event, 'TOPS')" class="category-card">
+        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80"
+             alt="SWE TOPS"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=SWE+TOPS';">
+        <div class="category-content">
+          <h3>TOPS</h3>
+          <span>Khám phá Áo thun, Polo, Baby Tee →</span>
+        </div>
+      </div>
+
+      <div onclick="handleNavFilter(event, 'BOTTOMS')" class="category-card">
+        <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80"
+             alt="SWE BOTTOMS"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=SWE+BOTTOMS';">
+        <div class="category-content">
+          <h3>BOTTOMS</h3>
+          <span>Khám phá Quần Shorts, Jeans, Cargo →</span>
+        </div>
+      </div>
+
+      <div onclick="handleNavFilter(event, 'OUTERWEAR')" class="category-card">
+        <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80"
+             alt="SWE OUTERWEAR"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=SWE+OUTERWEAR';">
+        <div class="category-content">
+          <h3>OUTERWEAR</h3>
+          <span>Khám phá Jacket, Hoodie, Cardigan →</span>
+        </div>
+      </div>
+
+      <div onclick="handleNavFilter(event, 'ACCESSORIES')" class="category-card">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80"
+             alt="SWE ACCESSORIES"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x800/1a1a1a/ffffff?text=SWE+ACCESSORIES';">
+        <div class="category-content">
+          <h3>ACCESSORIES</h3>
+          <span>Khám phá Balo, Túi chéo, Nón, Vớ →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4.5. KHO SẢN PHẨM TƯƠNG TÁC TRỰC TIẾP (ĐÃ VÁ LỖI 404 KHI BẤM LỌC GIÁ / MENU) -->
+    <div id="catalogSection" class="mt-16 pt-4">
+      <div class="section-header !text-left flex flex-col md:flex-row md:items-end justify-between gap-4 !mb-6">
+        <div>
+          <span class="inline-block text-xs font-extrabold uppercase tracking-wider text-red-600 bg-red-50 px-3 py-1 rounded-full mb-2">Official Collection</span>
+          <h2 id="catalogHeading">SẢN PHẨM ƯU ĐÃI NỔI BẬT</h2>
+          <p id="catalogSubheading">Hiển thị toàn bộ thiết kế Streetwear chính hãng từ SWE®</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <label for="sortSelect" class="text-xs font-bold uppercase text-gray-500">Sắp xếp:</label>
+          <select id="sortSelect" onchange="handleSortChange(this.value)" class="border border-gray-300 rounded-lg px-3 py-2 text-xs font-semibold bg-white outline-none focus:border-black">
+            <option value="default">Mặc định (Nổi bật)</option>
+            <option value="price-asc">Giá: Thấp đến Cao</option>
+            <option value="price-desc">Giá: Cao đến Thấp</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Thanh lọc nhanh theo mức giá & danh mục -->
+      <div class="catalog-toolbar">
+        <div class="filter-pills" id="quickFilterPills">
+          <button type="button" onclick="resetAllFilters(event)" class="filter-pill active" data-pill="ALL">Tất cả (12)</button>
+          <button type="button" onclick="handlePriceFilter(199000)" class="filter-pill" data-pill="199000">Đồng giá 199K</button>
+          <button type="button" onclick="handlePriceFilter(299000)" class="filter-pill" data-pill="299000">Đồng giá 299K</button>
+          <button type="button" onclick="handlePriceFilter(399000)" class="filter-pill" data-pill="399000">Đồng giá 399K</button>
+          <button type="button" onclick="handlePriceFilter(499000)" class="filter-pill" data-pill="499000">Đồng giá 499K</button>
+        </div>
+        <div class="text-xs font-semibold text-gray-500" id="resultCountText">Đang hiển thị 12 sản phẩm</div>
+      </div>
+
+      <!-- Lưới sản phẩm render tự động -->
+      <div class="product-grid" id="productGrid"></div>
+
+      <!-- Trạng thái trống khi từ khóa không khớp -->
+      <div id="emptyState" class="hidden text-center py-16 px-4 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+        <div class="text-4xl mb-3">🔍</div>
+        <h3 class="text-lg font-extrabold mb-1">Không tìm thấy sản phẩm phù hợp</h3>
+        <p class="text-sm text-gray-500 mb-5">Thử tìm với từ khóa khác hoặc xóa bộ lọc đang chọn để xem toàn bộ BST SWE®.</p>
+        <button type="button" onclick="resetAllFilters(event)" class="px-6 py-2.5 bg-black text-white text-xs font-bold uppercase rounded-full hover:bg-red-600 transition">
+          Xem lại toàn bộ sản phẩm
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. TRUST BADGES ĐỒNG BỘ 100% VỚI TOP BAR -->
+    <div class="trust-badges">
+      <div class="badge-item">
+        <span class="badge-icon">🚀</span>
+        <div class="badge-title">Miễn phí vận chuyển</div>
+        <div class="badge-desc">Cho mọi đơn hàng từ 500.000₫</div>
+      </div>
+      <div class="badge-item">
+        <span class="badge-icon">💬</span>
+        <div class="badge-title">Hỗ trợ 24/7</div>
+        <div class="badge-desc">Tư vấn size Online & Offline 24/7</div>
+      </div>
+      <div class="badge-item">
+        <span class="badge-icon">📦</span>
+        <div class="badge-title">Đổi trả linh hoạt</div>
+        <div class="badge-desc">Đổi size nhanh chóng trong 5 ngày</div>
+      </div>
+      <div class="badge-item">
+        <span class="badge-icon">💳</span>
+        <div class="badge-title">Thanh toán đa dạng</div>
+        <div class="badge-desc">COD, Chuyển khoản, Thẻ | Hotline: 0357 420 420</div>
+      </div>
+    </div>
+
+    <!-- 6. SWE FEEDBACK KÈM NÚT "SHOP THE LOOK" TƯƠNG TÁC THẬT -->
+    <div class="section-header">
+      <h2>SWE® FEEDBACK — SHOP THE LOOK</h2>
+      <p>Cảm hứng phối đồ thực tế từ cộng đồng SWE trên toàn quốc</p>
+    </div>
+    <div class="feedback-grid">
+      <div class="feedback-card">
+        <span class="feedback-tag">@minhkhang.swe • TP.HCM</span>
+        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80"
+             alt="Áo Thun Dài Tay Gothic & Cargo Pants"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x750/222222/ffffff?text=SWE+LOOK+01';">
+        <button type="button" onclick="quickBuyLook(5)" class="shop-look-btn">
+          <span>Áo Thun Dài Tay Gothic & Cargo Pants (399K)</span>
+          <span class="text-red-600 whitespace-nowrap">Mua set này →</span>
+        </button>
+      </div>
+
+      <div class="feedback-card">
+        <span class="feedback-tag">@linhchi.street • Hà Nội</span>
+        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80"
+             alt="Áo Thun Sweetie & Roses Oversize"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x750/222222/ffffff?text=SWE+LOOK+02';">
+        <button type="button" onclick="quickBuyLook(2)" class="shop-look-btn">
+          <span>Áo Thun Sweetie & Roses Oversize (299K)</span>
+          <span class="text-red-600 whitespace-nowrap">Mua ngay →</span>
+        </button>
+      </div>
+
+      <div class="feedback-card">
+        <span class="feedback-tag">@jayden.archive • Đà Nẵng</span>
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80"
+             alt="Áo Raglan Tay Dài Star SWE®"
+             onerror="this.onerror=null;this.src='https://placehold.co/600x750/222222/ffffff?text=SWE+LOOK+03';">
+        <button type="button" onclick="quickBuyLook(3)" class="shop-look-btn">
+          <span>Áo Raglan Tay Dài Star SWE® (299K)</span>
+          <span class="text-red-600 whitespace-nowrap">Mua ngay →</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FOOTER HOÀN CHỈNH (XÓA KHỐI THỪA, SỬA MỐC NĂM & KHÔNG CẮT CHỮ FANPAGE) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>VỀ SWE (ABOUT US)</h4>
+        <p>
+          Được thành lập vào cuối năm 2016 trong bối cảnh thời trang streetstyle dần nhen nhóm vào thị trường Việt Nam. Qua một thập kỷ phát triển, <strong>SWE - Street Wear Eazy</strong> với slogan <em>"Young kids with a mission™"</em> đã chiếm trọn tình cảm của cộng đồng yêu mến thời trang đường phố trên khắp cả nước.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>CHÍNH SÁCH KHÁCH HÀNG</h4>
+        <ul>
+          <li><a onclick="openInfoModal('size')">Hướng dẫn chọn size & mua hàng</a></li>
+          <li><a onclick="openInfoModal('return')">Chính sách đổi trả & bảo hành (5 ngày)</a></li>
+          <li><a onclick="openInfoModal('shipping')">Chính sách giao nhận - vận chuyển</a></li>
+          <li><a onclick="openInfoModal('membership')">Chính sách SWE Membership</a></li>
+          <li><a onclick="openInfoModal('care')">Hướng dẫn giặt ủi & bảo quản sản phẩm</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>HỆ THỐNG CỬA HÀNG SWE</h4>
+        <ul>
+          <li>📍 44A Trần Quang Diệu, Phường Nhiêu Lộc, TP.HCM</li>
+          <li>📍 TNP, 26 Lý Tự Trọng, Phường Sài Gòn, TP.HCM</li>
+          <li>📍 Store 29 - 30 TNP, Tầng B1, Vincom Center Đồng Khởi, Phường Sài Gòn, TP.HCM</li>
+          <li>📍 TRC, 180 Đê La Thành, Hà Nội</li>
+          <li>📞 Hotline: <strong>0357 420 420</strong></li>
+          <li>✉️ Email: streetweareazy@gmail.com</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>KẾT NỐI VỚI SWE®</h4>
+        <div class="social-card">
+          <div class="social-header">
+            <div class="social-avatar">swe</div>
+            <div class="social-info">
+              <h5>SWE® Official ☑️</h5>
+              <span>993.309+ người theo dõi</span>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn">Facebook</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn">Instagram</a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="social-btn">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2016 - 2026 SWE (Street Wear Eazy). All rights reserved.</span>
+      <span>Chứng nhận Đã thông báo Bộ Công Thương | Bảo mật thanh toán 100%</span>
+    </div>
+  </footer>
+
+  <!-- 8. NGĂN KÉO GIỎ HÀNG (SLIDE-OVER CART DRAWER) -->
+  <div id="cartOverlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 bg-black/50 z-[1100] hidden opacity-0 transition-opacity duration-300"></div>
+  <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[1200] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-gray-200 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-black uppercase">Giỏ hàng SWE®</span>
+        <span id="drawerCountBadge" class="bg-black text-white text-xs font-bold px-2.5 py-0.5 rounded-full">0</span>
+      </div>
+      <button type="button" onclick="toggleCartDrawer(false)" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-black hover:text-white font-bold flex items-center justify-center transition">✕</button>
+    </div>
+
+    <!-- Thanh tiến trình Freeship 500.000₫ đồng bộ Top Bar -->
+    <div class="px-5 py-3 bg-gray-50 border-b border-gray-200">
+      <p id="freeshipStatusText" class="text-xs font-semibold text-gray-700 mb-1.5">
+        Mua thêm <strong class="text-red-600">500.000₫</strong> để được <strong>MIỄN PHÍ VẬN CHUYỂN</strong>
+      </p>
+      <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div id="freeshipBar" class="h-full bg-red-600 transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Danh sách sản phẩm trong giỏ -->
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+
+    <!-- Tổng tiền & Đặt hàng -->
+    <div class="p-5 border-t border-gray-200 bg-white">
+      <div class="flex justify-between items-center text-sm mb-2">
+        <span class="text-gray-500">Phí vận chuyển tạm tính:</span>
+        <span id="shippingFeeText" class="font-bold">30.000₫</span>
+      </div>
+      <div class="flex justify-between items-center text-base font-black mb-4">
+        <span>TỔNG CỘNG:</span>
+        <span id="cartTotalText" class="text-xl text-red-600">0₫</span>
+      </div>
+      <button type="button" onclick="handleCheckout()" id="checkoutBtn" class="w-full py-3.5 bg-black hover:bg-red-600 text-white font-extrabold text-sm uppercase rounded-xl transition">
+        Thanh toán ngay →
+      </button>
+    </div>
+  </aside>
+
+  <!-- 9. MODAL THÔNG TIN CHÍNH SÁCH / ĐẶT HÀNG THÀNH CÔNG (KHÔNG DÙNG ALERT) -->
+  <div id="infoModal" class="fixed inset-0 bg-black/60 z-[1300] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-fadeIn">
+      <button type="button" onclick="closeInfoModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-black hover:text-white font-bold">✕</button>
+      <div id="infoModalContent"></div>
+    </div>
+  </div>
+
+  <!-- 10. TOAST NOTIFICATION -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-[1400] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- SCRIPT ĐIỀU KHIỂN: BẤT ĐỒNG BỘ AN TOÀN, DEBOUNCE TÌM KIẾM, CHỐNG CLICK LẶP -->
+  <script>
+    // Dữ liệu 12 sản phẩm SWE® chuẩn theo 4 mốc giá 199K, 299K, 399K, 499K
+    const SWE_PRODUCTS = [
+      {
+        id: 1,
+        name: "SWE® Basic Logo Heavyweight Tee - Black",
+        category: "TOPS",
+        tags: ["SALE", "BEST", "SUMMER", "TOPS"],
+        price: 199000,
+        oldPrice: 350000,
+        badge: "Deal 199K",
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 2,
+        name: "Áo Thun Sweetie & Roses Oversize Tee - Cream",
+        category: "TOPS",
+        tags: ["SALE", "BEST", "WOMENS", "TOPS"],
+        price: 299000,
+        oldPrice: 420000,
+        badge: "Best Seller",
+        image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 3,
+        name: "Áo Raglan Tay Dài Star SWE® Longsleeve",
+        category: "TOPS",
+        tags: ["SALE", "NEW", "TOPS"],
+        price: 299000,
+        oldPrice: 450000,
+        badge: "New Arrival",
+        image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 4,
+        name: "SWE® Baby Tee Cherries Form Croptop",
+        category: "TOPS",
+        tags: ["SALE", "SUMMER", "WOMENS", "TOPS"],
+        price: 199000,
+        oldPrice: 320000,
+        badge: "Deal 199K",
+        image: "https://images.unsplash.com/photo-1554568218-0f1715e72254?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 5,
+        name: "Set Áo Dài Tay Gothic & Quần Cargo Parachute",
+        category: "BOTTOMS",
+        tags: ["SALE", "BEST", "NEW", "BOTTOMS"],
+        price: 399000,
+        oldPrice: 650000,
+        badge: "Hot Look",
+        image: "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 6,
+        name: "Quần Short Nỉ SWE® Essential Sweatshorts",
+        category: "BOTTOMS",
+        tags: ["SALE", "SUMMER", "BOTTOMS"],
+        price: 299000,
+        oldPrice: 390000,
+        badge: "Deal 299K",
+        image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 7,
+        name: "Quần Jeans Ống Rộng SWE® Washed Baggy Denim",
+        category: "BOTTOMS",
+        tags: ["SALE", "BEST", "BOTTOMS"],
+        price: 499000,
+        oldPrice: 680000,
+        badge: "Deal 499K",
+        image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 8,
+        name: "Áo Khoác Dù SWE® Script Coach Jacket - Beige",
+        category: "OUTERWEAR",
+        tags: ["SALE", "BEST", "OUTERWEAR"],
+        price: 499000,
+        oldPrice: 720000,
+        badge: "Deal 499K",
+        image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 9,
+        name: "Áo Hoodie Zip SWE® Heavy Fleece - Charcoal",
+        category: "OUTERWEAR",
+        tags: ["SALE", "NEW", "OUTERWEAR"],
+        price: 499000,
+        oldPrice: 690000,
+        badge: "Deal 499K",
+        image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 10,
+        name: "Áo Khoác Cardigan Len SWE® Monogram",
+        category: "OUTERWEAR",
+        tags: ["SALE", "WOMENS", "OUTERWEAR"],
+        price: 399000,
+        oldPrice: 580000,
+        badge: "Deal 399K",
+        image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 11,
+        name: "Balo SWE® Urban Utility Backpack Chống Nước",
+        category: "ACCESSORIES",
+        tags: ["SALE", "BEST", "ACCESSORIES"],
+        price: 399000,
+        oldPrice: 550000,
+        badge: "Deal 399K",
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 12,
+        name: "Nón Lưỡi Trai SWE® Distressed Washed Cap",
+        category: "ACCESSORIES",
+        tags: ["SALE", "SUMMER", "ACCESSORIES"],
+        price: 199000,
+        oldPrice: 280000,
+        badge: "Deal 199K",
+        image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=700&q=80"
+      }
+    ];
+
+    // Trạng thái bộ lọc & giỏ hàng
+    let filterState = {
+      category: "ALL",
+      priceTier: "ALL",
+      searchQuery: "",
+      sortBy: "default"
+    };
+
+    let selectedSizes = {};
+    let cart = [];
+    let isAddingLock = false; // Khóa chống spam click gây đơ
+
+    const FREESHIP_THRESHOLD = 500000;
+
+    function formatCurrency(val) {
+      return Number(val || 0).toLocaleString('vi-VN') + '₫';
+    }
+
+    // Khởi tạo dữ liệu giỏ hàng an toàn với try/catch
+    function loadCartSafely() {
+      try {
+        const saved = localStorage.getItem('swe_official_cart_v1');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) cart = parsed;
+        }
+      } catch (err) {
+        cart = [];
+      }
+      updateCartUI();
+    }
+
+    function saveCartSafely() {
+      try {
+        localStorage.setItem('swe_official_cart_v1', JSON.stringify(cart));
+      } catch (err) {
+        // Bỏ qua nếu trình duyệt chặn bộ nhớ cục bộ
+      }
+    }
+
+    // Render danh sách sản phẩm theo bộ lọc
+    function renderProducts() {
+      const grid = document.getElementById('productGrid');
+      const emptyState = document.getElementById('emptyState');
+      const countText = document.getElementById('resultCountText');
+      if (!grid) return;
+
+      let filtered = SWE_PRODUCTS.filter(item => {
+        const matchCat =
+          filterState.category === "ALL" ||
+          filterState.category === "SALE" ||
+          item.category === filterState.category ||
+          (Array.isArray(item.tags) && item.tags.includes(filterState.category));
+
+        const matchPrice =
+          filterState.priceTier === "ALL" ||
+          item.price === Number(filterState.priceTier);
+
+        const q = filterState.searchQuery.trim().toLowerCase();
+        const matchSearch =
+          !q ||
+          item.name.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q);
+
+        return matchCat && matchPrice && matchSearch;
+      });
+
+      if (filterState.sortBy === "price-asc") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (filterState.sortBy === "price-desc") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      countText.textContent = `Đang hiển thị ${filtered.length} sản phẩm`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(product => {
+        const currentSize = selectedSizes[product.id] || 'L';
+        const sizes = ['S', 'M', 'L', 'XL'];
+        return `
+          <article class="product-card">
+            <div class="product-img-wrap">
+              <span class="product-badge">${product.badge}</span>
+              <img src="${product.image}"
+                   alt="${product.name}"
+                   loading="lazy"
+                   onerror="this.onerror=null;this.src='https://placehold.co/600x660/f0f0f0/111111?text=SWE+STREETWEAR';">
+            </div>
+            <div class="product-body">
+              <div class="product-cat">${product.category}</div>
+              <h3 class="product-title">${product.name}</h3>
+              <div class="product-price-row">
+                <span class="product-price">${formatCurrency(product.price)}</span>
+                <span class="product-old-price">${formatCurrency(product.oldPrice)}</span>
+              </div>
+              <div class="size-selector" role="group" aria-label="Chọn size">
+                ${sizes.map(sz => `
+                  <button type="button"
+                          onclick="selectProductSize(${product.id}, '${sz}')"
+                          class="size-btn ${currentSize === sz ? 'selected' : ''}">
+                    ${sz}
+                  </button>
+                `).join('')}
+              </div>
+              <button type="button"
+                      onclick="addToCart(${product.id}, this)"
+                      class="add-cart-btn">
+                + Thêm vào giỏ (${currentSize})
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function selectProductSize(productId, size) {
+      selectedSizes[productId] = size;
+      renderProducts();
+    }
+
+    // Lọc theo nút mức giá trên Hero Banner (199K, 299K, 399K, 499K)
+    function handlePriceFilter(price, scroll = true) {
+      filterState.priceTier = price === 'ALL' ? 'ALL' : Number(price);
+
+      // Đồng bộ trạng thái active trên Hero Banner
+      document.querySelectorAll('#heroPriceButtons .price-btn').forEach(btn => {
+        const btnPrice = Number(btn.getAttribute('data-price'));
+        btn.classList.toggle('active-tier', btnPrice === filterState.priceTier);
+      });
+
+      // Đồng bộ trạng thái active trên thanh Filter Pills
+      document.querySelectorAll('#quickFilterPills .filter-pill').forEach(pill => {
+        const pillVal = pill.getAttribute('data-pill');
+        pill.classList.toggle('active', String(filterState.priceTier) === pillVal);
+      });
+
+      const heading = document.getElementById('catalogHeading');
+      if (filterState.priceTier === 'ALL') {
+        heading.textContent = 'SẢN PHẨM ƯU ĐÃI NỔI BẬT';
+      } else {
+        heading.textContent = `BỘ SƯU TẬP ĐỒNG GIÁ ${formatCurrency(filterState.priceTier)}`;
+      }
+
+      renderProducts();
+
+      if (scroll) {
+        document.getElementById('catalogSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Lọc theo thanh điều hướng Header hoặc 4 ô Danh mục
+    function handleNavFilter(event, categoryKey) {
+      if (event) event.preventDefault();
+      filterState.category = categoryKey;
+      filterState.priceTier = 'ALL';
+
+      // Cập nhật gạch chân menu
+      document.querySelectorAll('#mainNav a').forEach(link => {
+        link.classList.toggle('active-nav', link.getAttribute('data-nav') === categoryKey);
+      });
+
+      // Reset trạng thái nút đồng giá
+      document.querySelectorAll('#heroPriceButtons .price-btn').forEach(btn => btn.classList.remove('active-tier'));
+      document.querySelectorAll('#quickFilterPills .filter-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.getAttribute('data-pill') === 'ALL');
+      });
+
+      const titles = {
+        SALE: "SẢN PHẨM ƯU ĐÃI NỔI BẬT",
+        SUMMER: "SUMMER COLLECTION 2026",
+        NEW: "SẢN PHẨM MỚI (NEW ARRIVALS)",
+        BEST: "TOP SẢN PHẨM BÁN CHẠY (BEST SELLERS)",
+        TOPS: "DANH MỤC ÁO (TOPS: TEE, POLO, BABY TEE)",
+        BOTTOMS: "DANH MỤC QUẦN (BOTTOMS: SHORTS, JEANS, CARGO)",
+        OUTERWEAR: "DANH MỤC ÁO KHOÁC (JACKET, HOODIE, CARDIGAN)",
+        ACCESSORIES: "PHỤ KIỆN STREETWEAR (BALO, NÓN, TÚI)",
+        WOMENS: "BỘ SƯU TẬP SWE® WOMENS"
+      };
+
+      document.getElementById('catalogHeading').textContent = titles[categoryKey] || "SẢN PHẨM SWE®";
+      renderProducts();
+      document.getElementById('catalogSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetAllFilters(event) {
+      if (event) event.preventDefault();
+      filterState = {
+        category: "ALL",
+        priceTier: "ALL",
+        searchQuery: "",
+        sortBy: "default"
+      };
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.value = "";
+      document.getElementById('clearSearchBtn')?.classList.add('hidden');
+      document.getElementById('sortSelect').value = "default";
+
+      document.querySelectorAll('#heroPriceButtons .price-btn').forEach(btn => btn.classList.remove('active-tier'));
+      document.querySelectorAll('#quickFilterPills .filter-pill').forEach(pill => {
+        pill.classList.toggle('active', pill.getAttribute('data-pill') === 'ALL');
+      });
+      document.getElementById('catalogHeading').textContent = "SẢN PHẨM ƯU ĐÃI NỔI BẬT";
+      renderProducts();
+    }
+
+    function handleSortChange(val) {
+      filterState.sortBy = val;
+      renderProducts();
+    }
+
+    // Debounce 250ms cho ô tìm kiếm chống giật/đơ khi gõ nhanh
+    let searchTimeout = null;
+    document.getElementById('searchInput')?.addEventListener('input', function (e) {
+      const val = e.target.value || "";
+      document.getElementById('clearSearchBtn')?.classList.toggle('hidden', val.length === 0);
+
+      if (searchTimeout) clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        filterState.searchQuery = val;
+        renderProducts();
+      }, 250);
+    });
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      if (input) input.value = "";
+      document.getElementById('clearSearchBtn')?.classList.add('hidden');
+      filterState.searchQuery = "";
+      renderProducts();
+    }
+
+    // Thêm vào giỏ hàng kèm cơ chế khóa chống bấm liên tục
+    function addToCart(productId, btnElement) {
+      if (isAddingLock) return;
+      isAddingLock = true;
+
+      const product = SWE_PRODUCTS.find(p => p.id === productId);
+      if (!product) {
+        isAddingLock = false;
+        return;
+      }
+
+      const size = selectedSizes[productId] || 'L';
+      const cartKey = `${product.id}_${size}`;
+      const existing = cart.find(item => item.key === cartKey);
+
+      if (existing) {
+        existing.qty = Math.min(existing.qty + 1, 99);
+      } else {
+        cart.push({
+          key: cartKey,
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          size: size,
+          qty: 1
+        });
+      }
+
+      saveCartSafely();
+      updateCartUI();
+      showToast(`Đã thêm "${product.name}" (Size ${size}) vào giỏ!`);
+
+      if (btnElement) {
+        const originalText = btnElement.textContent;
+        btnElement.disabled = true;
+        btnElement.textContent = "✓ Đã thêm vào giỏ";
+        setTimeout(() => {
+          btnElement.disabled = false;
+          btnElement.textContent = originalText;
+          isAddingLock = false;
+        }, 350);
+      } else {
+        setTimeout(() => { isAddingLock = false; }, 250);
+      }
+    }
+
+    // Nút "Shop The Look" thêm nhanh sản phẩm mẫu và mở ngăn kéo giỏ hàng
+    function quickBuyLook(productId) {
+      addToCart(productId, null);
+      toggleCartDrawer(true);
+    }
+
+    function updateCartQty(cartKey, delta) {
+      const idx = cart.findIndex(item => item.key === cartKey);
+      if (idx === -1) return;
+
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) {
+        cart.splice(idx, 1);
+      } else if (cart[idx].qty > 99) {
+        cart[idx].qty = 99;
+      }
+      saveCartSafely();
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      const badge = document.getElementById('cartBadge');
+      const drawerBadge = document.getElementById('drawerCountBadge');
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.classList.add('bump');
+        setTimeout(() => badge.classList.remove('bump'), 250);
+      }
+      if (drawerBadge) drawerBadge.textContent = totalItems;
+
+      // Tính toán mốc Freeship 500.000₫
+      const progress = Math.min(100, Math.round((subtotal / FREESHIP_THRESHOLD) * 100));
+      const freeshipBar = document.getElementById('freeshipBar');
+      const freeshipText = document.getElementById('freeshipStatusText');
+      const shippingFeeText = document.getElementById('shippingFeeText');
+
+      if (freeshipBar) freeshipBar.style.width = `${progress}%`;
+
+      let shippingFee = 30000;
+      if (subtotal === 0) {
+        shippingFee = 0;
+        if (freeshipText) {
+          freeshipText.innerHTML = `Mua từ <strong class="text-red-600">500.000₫</strong> để được <strong>MIỄN PHÍ VẬN CHUYỂN</strong>`;
+        }
+      } else if (subtotal >= FREESHIP_THRESHOLD) {
+        shippingFee = 0;
+        if (freeshipText) {
+          freeshipText.innerHTML = `🎉 Chúc mừng! Đơn hàng của bạn đã đủ điều kiện <strong class="text-green-600">FREESHIP 0₫</strong>`;
+        }
+      } else {
+        const remain = FREESHIP_THRESHOLD - subtotal;
+        if (freeshipText) {
+          freeshipText.innerHTML = `Mua thêm <strong class="text-red-600">${formatCurrency(remain)}</strong> để được <strong>MIỄN PHÍ VẬN CHUYỂN</strong>`;
+        }
+      }
+
+      if (shippingFeeText) {
+        shippingFeeText.textContent = shippingFee === 0 && subtotal > 0 ? "MIỄN PHÍ (0₫)" : formatCurrency(shippingFee);
+      }
+
+      const totalText = document.getElementById('cartTotalText');
+      if (totalText) totalText.textContent = formatCurrency(subtotal + shippingFee);
+
+      const container = document.getElementById('cartItemsContainer');
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-14 text-gray-400">
+            <div class="text-5xl mb-3">🛍️</div>
+            <p class="text-sm font-bold text-gray-700 mb-1">Giỏ hàng của bạn đang trống</p>
+            <p class="text-xs">Khám phá ngay các thiết kế đồng giá 199K - 499K từ SWE®</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = cart.map(item => `
+        <div class="flex gap-3 p-3 border border-gray-200 rounded-xl bg-white">
+          <img src="${item.image}"
+               alt="${item.name}"
+               class="w-16 h-20 object-cover rounded-lg bg-gray-100 flex-shrink-0"
+               onerror="this.onerror=null;this.src='https://placehold.co/120x150/f0f0f0/111111?text=SWE';">
+          <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-bold text-gray-900 truncate">${item.name}</h4>
+            <p class="text-[11px] text-gray-500 font-semibold mt-0.5">Size: ${item.size}</p>
+            <p class="text-sm font-extrabold text-red-600 mt-1">${formatCurrency(item.price * item.qty)}</p>
+            <div class="flex items-center gap-2 mt-2">
+              <button type="button" onclick="updateCartQty('${item.key}', -1)" class="w-6 h-6 rounded bg-gray-100 hover:bg-black hover:text-white font-bold text-xs">-</button>
+              <span class="text-xs font-bold min-w-[20px] text-center">${item.qty}</span>
+              <button type="button" onclick="updateCartQty('${item.key}', 1)" class="w-6 h-6 rounded bg-gray-100 hover:bg-black hover:text-white font-bold text-xs">+</button>
+            </div>
+          </div>
+          <button type="button" onclick="updateCartQty('${item.key}', -999)" class="text-xs text-gray-400 hover:text-red-600 self-start" title="Xóa">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function toggleCartDrawer(open) {
+      const overlay = document.getElementById('cartOverlay');
+      const drawer = document.getElementById('cartDrawer');
+      if (!overlay || !drawer) return;
+
+      if (open) {
+        overlay.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          overlay.classList.remove('opacity-0');
+          drawer.classList.remove('translate-x-full');
+        });
+      } else {
+        overlay.classList.add('opacity-0');
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+
+    // Xử lý đặt hàng an toàn không dùng alert()
+    function handleCheckout() {
+      if (cart.length === 0) {
+        showToast("Giỏ hàng đang trống! Hãy chọn ít nhất 1 sản phẩm SWE®.");
+        return;
+      }
+      toggleCartDrawer(false);
+      const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const shipping = subtotal >= FREESHIP_THRESHOLD ? 0 : 30000;
+      const orderCode = "SWE" + Math.floor(100000 + Math.random() * 900000);
+
+      cart = [];
+      saveCartSafely();
+      updateCartUI();
+
+      const modal = document.getElementById('infoModal');
+      const content = document.getElementById('infoModalContent');
+      content.innerHTML = `
+        <div class="text-center py-4">
+          <div class="w-14 h-14 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl mx-auto mb-4">✓</div>
+          <h3 class="text-xl font-black uppercase mb-2">Đặt hàng thành công!</h3>
+          <p class="text-sm text-gray-600 mb-4">Mã đơn hàng: <strong class="text-black">${orderCode}</strong> — Tổng thanh toán: <strong class="text-red-600">${formatCurrency(subtotal + shipping)}</strong></p>
+          <p class="text-xs text-gray-500 mb-6">Bộ phận CSKH SWE® (Hotline 0357 420 420) sẽ liên hệ xác nhận size và địa chỉ giao hàng của bạn trong ít phút.</p>
+          <button type="button" onclick="closeInfoModal()" class="w-full py-3 bg-black text-white text-xs font-bold uppercase rounded-xl hover:bg-red-600 transition">Tiếp tục mua sắm</button>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // Mở Modal thông tin chính sách / tài khoản
+    function openInfoModal(type) {
+      const modal = document.getElementById('infoModal');
+      const content = document.getElementById('infoModalContent');
+      const infoMap = {
+        account: {
+          title: "TÀI KHOẢN SWE® MEMBERSHIP",
+          body: "Đăng nhập bằng số điện thoại để tích điểm SWE® Coins và nhận ưu đãi giảm tới 15% cho thành viên VIP. Liên hệ Hotline 0357 420 420 để tra cứu hạng thẻ nhanh."
+        },
+        size: {
+          title: "BẢNG SIZE CHUẨN SWE® OVERSIZE",
+          body: "• Size S: Cao 1m50 - 1m62 | Nặng 42kg - 52kg<br>• Size M: Cao 1m60 - 1m70 | Nặng 53kg - 63kg<br>• Size L: Cao 1m68 - 1m78 | Nặng 64kg - 75kg<br>• Size XL: Cao 1m75 trở lên | Nặng 76kg - 90kg"
+        },
+        return: {
+          title: "CHÍNH SÁCH ĐỔI TRẢ TRONG 5 NGÀY",
+          body: "Hỗ trợ đổi size hoặc đổi mẫu linh hoạt trong vòng 05 ngày kể từ khi nhận hàng. Sản phẩm còn nguyên tem tag, chưa qua giặt ủi."
+        },
+        shipping: {
+          title: "CHÍNH SÁCH VẬN CHUYỂN FREESHIP 500K",
+          body: "Miễn phí vận chuyển toàn quốc cho mọi đơn hàng từ 500.000₫. Đơn dưới 500.000₫ áp dụng phí giao hàng đồng giá 30.000₫."
+        },
+        membership: {
+          title: "QUYỀN LỢI SWE® MEMBERSHIP",
+          body: "Tích lũy chi tiêu tự động qua số điện thoại đặt hàng. Nhận quà sinh nhật và quyền mua sớm các bản Collab giới hạn."
+        },
+        care: {
+          title: "HƯỚNG DẪN BẢO QUẢN HÌNH IN STREETWEAR",
+          body: "Lộn trái áo khi giặt, không dùng thuốc tẩy mạnh và không ủi trực tiếp lên bề mặt hình in lụa/decal để giữ độ bền tối đa."
+        }
+      };
+
+      const item = infoMap[type] || infoMap.size;
+      content.innerHTML = `
+        <h3 class="text-lg font-black uppercase mb-3 pr-8">${item.title}</h3>
+        <div class="text-sm text-gray-600 leading-relaxed mb-6">${item.body}</div>
+        <button type="button" onclick="closeInfoModal()" class="w-full py-2.5 bg-black text-white text-xs font-bold uppercase rounded-lg">Đã hiểu</button>
+      `;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeInfoModal() {
+      const modal = document.getElementById('infoModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = "bg-black text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-300";
+      toast.innerHTML = `<span class="text-red-500 font-black">SWE®</span> <span>${message}</span>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 250);
+      }, 2400);
+    }
+
+    // Khởi chạy khi DOM sẵn sàng
+    window.addEventListener('DOMContentLoaded', () => {
+      loadCartSafely();
+      renderProducts();
+    });
+  </script>
+</body>
+</html>
